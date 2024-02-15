@@ -6,12 +6,54 @@ typedef struct {
     int posy;
     int velx;
     int vely;
+    int currentSteps;
+    // Particle *next;
 } Particle;
 
-void simulateParticle(FILE *in, FILE *out) {
+void simulateParticle(FILE *in, FILE *out, Particle *Ps, int seconds, int numParticles, int rows, int cols) {
 
     //move all particles FIRST
     //check final positions and see if one xy pos == another particles xy pos
+
+    for (int i = 0; i < seconds; i++) {
+        for (int j = 0; j < numParticles; j++) {
+            printf("%d: [%d][%d][%d][%d]\n", j+1, Ps[j].posx, Ps[j].posy, Ps[j].velx, Ps[j].vely);
+            if (Ps[j].currentSteps > 0) {
+                if (Ps[j].posx + Ps[j].velx == -1 || Ps[j].posx + Ps[j].velx == cols - 1){
+                    Ps[j].velx *= -1;
+                }
+                if (Ps[j].posy + Ps[j].vely == -1 || Ps[j].posy + Ps[j].vely == rows - 1){
+                    Ps[j].vely *= -1;
+                }
+            }
+            Ps[j].posy += Ps[j].vely;
+            Ps[j].posx += Ps[j].velx;
+            //printf("%d: [%d][%d][%d][%d]\n", j+1, Ps[i].posx, Ps[i].posy, Ps[i].velx, Ps[i].vely);
+        }
+        
+        
+        // for (int p = 0; p < numParticles; p++) {
+        //     if (Ps[p].posx == NULL || Ps[p].posy == NULL) {
+        //         continue;
+        //     }
+        //     for(int q = 0; q <= numParticles; q++) {
+        //         if (p == q) {
+        //             continue;
+        //         }
+        //         if ( Ps[q].posx == NULL ||  Ps[q].posy == NULL) {
+        //             continue;
+        //         }
+        //         if (Ps[p].posx == Ps[q].posx && Ps[p].posy == Ps[q].posy) {
+        //             Ps[p].posx = NULL;
+        //             Ps[p].posy = NULL;
+        //             Ps[q].posx = NULL;
+        //             Ps[q].posy = NULL;
+        //         }
+        //     }
+        // }
+
+
+    }
     
 }
 
@@ -85,12 +127,9 @@ int main(int argc, char **argv) {
         number++;
     }
 
-    
-    
-    //particle maker
-    // Particle p [100];
-    // p[0].posx = 5;
-    // printf("%d\n", p[0].posx);
+    simulateParticle(in, out, Ps, seconds, numParticles, rows, cols);
+
+
 
     return 0;
 }
