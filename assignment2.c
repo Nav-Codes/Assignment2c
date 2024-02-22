@@ -339,7 +339,10 @@ int main(int argc, char **argv) {
 
     simulateParticle(in, out, Ps, seconds, number, rows, cols, grid);
 
-
+    for (int i = 0; i < rows; i++) {
+        free(grid[i]);
+    }
+    free(grid);
 
     return 0;
 }
